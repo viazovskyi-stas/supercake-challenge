@@ -51,8 +51,8 @@ export const PetsPopover: React.FC<PetsPopoverProps> = ({
           className={cn(
             'w-full px-3 py-2.5 rounded-lg text-center font-medium text-sm transition-colors',
             !hasAnySelected 
-              ? 'bg-primary-600 text-white' 
-              : 'bg-neutral-100 text-neutral-700 hover:bg-neutral-200'
+              ? 'bg-primary text-white' 
+              : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
           )}
         >
           Any Animal
@@ -73,16 +73,16 @@ export const PetsPopover: React.FC<PetsPopoverProps> = ({
                 'flex flex-col items-center gap-1.5 p-2.5 rounded-lg text-xs font-medium transition-all aspect-square',
                 'border-2 min-h-[68px]',
                 isSelected
-                  ? 'border-primary-600 bg-primary-50 text-primary-700'
-                  : 'border-neutral-200 bg-white text-neutral-600 hover:border-neutral-300 hover:bg-neutral-50'
+                  ? 'border-primary bg-primary-100 text-primary-700'
+                  : 'border-gray-200 bg-white text-gray-600 hover:border-gray-300 hover:bg-gray-50'
               )}
             >
               {IconComponent && (
-                <IconComponent 
+                                  <IconComponent 
                   size={18} 
                   className={cn(
                     'transition-colors',
-                    isSelected ? 'text-primary-600' : 'text-neutral-500'
+                    isSelected ? 'text-primary' : 'text-gray-500'
                   )}
                 />
               )}
@@ -93,19 +93,19 @@ export const PetsPopover: React.FC<PetsPopoverProps> = ({
       </div>
 
       {/* Action buttons */}
-      <div className="flex justify-between gap-2 pt-3 border-t border-neutral-200">
+      <div className="flex justify-between gap-2 pt-3 border-t border-gray-200">
         <Button
           variant="ghost"
           size="sm"
           onClick={handleReset}
-          className="flex-1 text-neutral-600 hover:text-neutral-800 h-9"
+          className="flex-1 text-gray-600 hover:text-gray-800 h-9"
         >
           Reset
         </Button>
         <Button
           size="sm"
           onClick={handleApply}
-          className="flex-1 bg-primary-600 hover:bg-primary-700 text-white h-9"
+          className="flex-1 bg-primary hover:bg-primary-600 text-white h-9"
         >
           Apply Filters
         </Button>
@@ -129,8 +129,8 @@ export const PetsPopover: React.FC<PetsPopoverProps> = ({
       >
         <button
           className={cn(
-            'flex items-center justify-between gap-2 px-4 py-2.5 bg-white border border-neutral-300 rounded-lg text-sm font-medium text-neutral-700',
-            'hover:border-neutral-400 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2',
+            'flex items-center justify-between gap-2 px-4 py-2.5 bg-white border border-gray-300 rounded-lg text-sm font-medium text-gray-700',
+            'hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2',
             'transition-colors min-w-[100px]'
           )}
         >
@@ -138,7 +138,7 @@ export const PetsPopover: React.FC<PetsPopoverProps> = ({
           <ChevronDownIcon 
             size={16} 
             className={cn(
-              'text-neutral-500 transition-transform duration-200',
+              'text-gray-500 transition-transform duration-200',
               isOpen && 'rotate-180'
             )}
           />

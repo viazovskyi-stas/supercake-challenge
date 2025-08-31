@@ -30,11 +30,11 @@ export default function Home() {
   }, [allCustomers]);
 
   return (
-    <div className="min-h-screen bg-neutral-50">
+    <div className="min-h-screen bg-gray-50">
       <div className="mx-auto max-w-4xl px-6 py-8">
         {/* Header */}
         <div className="mb-8">
-          <h1 className="text-2xl font-semibold text-neutral-900 mb-2">
+          <h1 className="text-2xl font-semibold text-gray-900 mb-2">
             Customers and Pets
           </h1>
         </div>

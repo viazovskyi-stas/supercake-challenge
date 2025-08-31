@@ -17,7 +17,7 @@ export const SearchInput = forwardRef<HTMLInputElement, SearchInputProps>(
 
     return (
       <div className={cn('relative', className)}>
-        <div className="absolute left-3 top-1/2 -translate-y-1/2 text-neutral-400">
+        <div className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
           <SearchIcon size={16} />
         </div>
         <input
@@ -26,9 +26,9 @@ export const SearchInput = forwardRef<HTMLInputElement, SearchInputProps>(
           value={value}
           onChange={handleChange}
           className={cn(
-            'w-full pl-10 pr-4 py-2.5 bg-white border border-neutral-300 rounded-lg',
-            'text-sm text-neutral-900 placeholder:text-neutral-400',
-            'hover:border-neutral-400 focus:border-primary-500 focus:ring-2 focus:ring-primary-100',
+            'w-full pl-10 pr-4 py-2.5 bg-white border border-gray-300 rounded-lg',
+            'text-sm text-gray-900 placeholder:text-gray-400',
+            'hover:border-gray-400 focus:border-primary-500 focus:ring-2 focus:ring-primary-100',
             'focus:outline-none transition-colors'
           )}
           {...props}

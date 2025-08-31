@@ -35,7 +35,7 @@ export const Popover: React.FC<PopoverProps> = ({
           sideOffset={sideOffset}
           className={cn(
             'z-50 min-w-[200px] rounded-xl bg-white p-4 shadow-popover',
-            'border border-neutral-200',
+            'border border-gray-200',
             'animate-slide-down',
             'data-[state=closed]:animate-fade-out'
           )}
