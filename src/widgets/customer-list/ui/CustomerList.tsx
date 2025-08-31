@@ -2,7 +2,7 @@
 
 import { Customer } from '../../../shared/types';
 import { Badge } from '../../../shared/ui';
-import { animalIcons, AnimalSpecies } from '../../../shared/ui/AnimalIcons';
+import { animalIcons, type AnimalSpecies } from '../../../shared/ui';
 import { getSpeciesDisplayName } from '../../../shared/utils/species';
 import { cn } from '../../../shared/utils/cn';
 

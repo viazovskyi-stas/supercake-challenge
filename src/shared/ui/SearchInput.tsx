@@ -1,7 +1,7 @@
 'use client';
 
 import { forwardRef, InputHTMLAttributes } from 'react';
-import { SearchIcon } from './AnimalIcons';
+import { SearchIcon } from './icons';
 import { cn } from '../utils/cn';
 
 export interface SearchInputProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'onChange'> {

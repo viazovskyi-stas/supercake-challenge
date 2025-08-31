@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { Popover, Button, ChevronDownIcon, animalIcons, AnimalSpecies } from '../../../shared/ui';
+import { Popover, Button, ChevronDownIcon, animalIcons, type AnimalSpecies } from '../../../shared/ui';
 import { getSpeciesDisplayName } from '../../../shared/utils/species';
 import { cn } from '../../../shared/utils/cn';
 
@@ -23,23 +23,56 @@ export const PetsPopover: React.FC<PetsPopoverProps> = ({
   className
 }) => {
   const [isOpen, setIsOpen] = useState(false);
+  const [tempSelectedSpecies, setTempSelectedSpecies] = useState<string[]>(selectedSpecies);
 
-  const hasAnySelected = selectedSpecies.length > 0;
-  const allSelected = selectedSpecies.length === availableSpecies.length;
+  // Синхронизируем временное состояние с реальным при изменении selectedSpecies или открытии
+  const hasAnySelected = tempSelectedSpecies.length > 0;
+
+  const handleOpenChange = (open: boolean) => {
+    setIsOpen(open);
+    if (open) {
+      // При открытии - синхронизируем с текущим состоянием URL
+      setTempSelectedSpecies([...selectedSpecies]);
+    }
+  };
+
+  const handleTempSpeciesToggle = (species: string) => {
+    setTempSelectedSpecies(prev => 
+      prev.includes(species) 
+        ? prev.filter(s => s !== species)
+        : [...prev, species]
+    );
+  };
 
   const handleAnyAnimalClick = () => {
     if (hasAnySelected) {
-      onClear();
+      setTempSelectedSpecies([]);
     }
   };
 
   const handleApply = () => {
+    // Применяем временные изменения к реальному состоянию
+    tempSelectedSpecies.forEach(species => {
+      if (!selectedSpecies.includes(species)) {
+        onSpeciesToggle(species);
+      }
+    });
+    
+    selectedSpecies.forEach(species => {
+      if (!tempSelectedSpecies.includes(species)) {
+        onSpeciesToggle(species);
+      }
+    });
+    
     onApply();
     setIsOpen(false);
   };
 
   const handleReset = () => {
+    setTempSelectedSpecies([]);
     onClear();
+    setTimeout(() => onApply(), 0);
+    setIsOpen(false);
   };
 
   const popoverContent = (
@@ -62,13 +95,13 @@ export const PetsPopover: React.FC<PetsPopoverProps> = ({
       {/* Species buttons grid */}
       <div className="grid grid-cols-3 gap-2 mb-4">
         {availableSpecies.map((species) => {
-          const isSelected = selectedSpecies.includes(species);
+          const isSelected = tempSelectedSpecies.includes(species);
           const IconComponent = animalIcons[species as AnimalSpecies];
           
           return (
             <button
               key={species}
-              onClick={() => onSpeciesToggle(species)}
+              onClick={() => handleTempSpeciesToggle(species)}
               className={cn(
                 'flex flex-col items-center gap-1.5 p-2.5 rounded-lg text-xs font-medium transition-all aspect-square',
                 'border-2 min-h-[68px]',
@@ -113,7 +146,7 @@ export const PetsPopover: React.FC<PetsPopoverProps> = ({
     </div>
   );
 
-  const displayText = hasAnySelected 
+  const displayText = selectedSpecies.length > 0 
     ? `${selectedSpecies.length} selected`
     : 'Pets';
 
@@ -121,7 +154,7 @@ export const PetsPopover: React.FC<PetsPopoverProps> = ({
     <div className={className}>
       <Popover
         open={isOpen}
-        onOpenChange={setIsOpen}
+        onOpenChange={handleOpenChange}
         content={popoverContent}
         side="bottom"
         align="end"

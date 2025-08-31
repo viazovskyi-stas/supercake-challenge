@@ -1,41 +1,47 @@
 'use client';
 
-import { useState, useCallback, useMemo, useEffect } from 'react';
+import { useCallback, useMemo, useEffect } from 'react';
 import { useCustomers } from '../../../shared/hooks/useCustomers';
+import { useUrlSearchParams } from '../../../shared/hooks/useSearchParams';
 
 export const useSearch = () => {
-  const [searchText, setSearchText] = useState('');
-  const [selectedSpecies, setSelectedSpecies] = useState<string[]>([]);
+  const {
+    searchText,
+    selectedSpecies,
+    setSearchText,
+    setSelectedSpecies,
+    clearAll,
+  } = useUrlSearchParams();
   
   const { customers, loading, error, refetch } = useCustomers();
 
   const handleSearch = useCallback((text: string) => {
     setSearchText(text);
-  }, []);
+  }, [setSearchText]);
 
   const handleSpeciesToggle = useCallback((species: string) => {
-    setSelectedSpecies(prev => 
-      prev.includes(species) 
-        ? prev.filter(s => s !== species)
-        : [...prev, species]
+    setSelectedSpecies(
+      selectedSpecies.includes(species) 
+        ? selectedSpecies.filter(s => s !== species)
+        : [...selectedSpecies, species]
     );
-  }, []);
+  }, [selectedSpecies, setSelectedSpecies]);
 
   const handleSpeciesClear = useCallback(() => {
     setSelectedSpecies([]);
-  }, []);
+  }, [setSelectedSpecies]);
 
   const searchParams = useMemo(() => ({
     searchText: searchText.trim() || undefined,
     species: selectedSpecies.length > 0 ? selectedSpecies : undefined,
   }), [searchText, selectedSpecies]);
 
-  // Auto-search only for text input with debouncing, not for species filter
+  // Auto-search for text input with debouncing
   useEffect(() => {
     const timeoutId = setTimeout(() => {
       const textSearchParams = {
         searchText: searchText.trim() || undefined,
-        // Don't apply species filter automatically - only on Apply click
+        // Don't auto-apply species filter - only on manual Apply
         species: undefined,
       };
       refetch(textSearchParams);
@@ -43,6 +49,11 @@ export const useSearch = () => {
 
     return () => clearTimeout(timeoutId);
   }, [searchText, refetch]);
+
+  // Apply filter when URL params change (for both search and species)
+  useEffect(() => {
+    refetch(searchParams);
+  }, [selectedSpecies, refetch, searchParams]);
 
   const performSearch = useCallback(() => {
     refetch(searchParams);
@@ -58,5 +69,6 @@ export const useSearch = () => {
     handleSpeciesToggle,
     handleSpeciesClear,
     performSearch,
+    clearAll,
   };
 };
