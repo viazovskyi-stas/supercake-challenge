@@ -43,13 +43,13 @@ export const PetsPopover: React.FC<PetsPopoverProps> = ({
   };
 
   const popoverContent = (
-    <div className="w-80">
+    <div className="w-72">
       {/* Any Animal button */}
-      <div className="mb-4">
+      <div className="mb-3">
         <button
           onClick={handleAnyAnimalClick}
           className={cn(
-            'w-full px-4 py-3 rounded-lg text-left font-medium text-sm transition-colors',
+            'w-full px-3 py-2.5 rounded-lg text-center font-medium text-sm transition-colors',
             !hasAnySelected 
               ? 'bg-primary-600 text-white' 
               : 'bg-neutral-100 text-neutral-700 hover:bg-neutral-200'
@@ -60,7 +60,7 @@ export const PetsPopover: React.FC<PetsPopoverProps> = ({
       </div>
 
       {/* Species buttons grid */}
-      <div className="grid grid-cols-3 gap-3 mb-6">
+      <div className="grid grid-cols-3 gap-2 mb-4">
         {availableSpecies.map((species) => {
           const isSelected = selectedSpecies.includes(species);
           const IconComponent = animalIcons[species as AnimalSpecies];
@@ -70,8 +70,8 @@ export const PetsPopover: React.FC<PetsPopoverProps> = ({
               key={species}
               onClick={() => onSpeciesToggle(species)}
               className={cn(
-                'flex flex-col items-center gap-2 p-3 rounded-lg text-sm font-medium transition-all',
-                'border-2',
+                'flex flex-col items-center gap-1.5 p-2.5 rounded-lg text-xs font-medium transition-all aspect-square',
+                'border-2 min-h-[68px]',
                 isSelected
                   ? 'border-primary-600 bg-primary-50 text-primary-700'
                   : 'border-neutral-200 bg-white text-neutral-600 hover:border-neutral-300 hover:bg-neutral-50'
@@ -79,31 +79,33 @@ export const PetsPopover: React.FC<PetsPopoverProps> = ({
             >
               {IconComponent && (
                 <IconComponent 
-                  size={20} 
+                  size={18} 
                   className={cn(
                     'transition-colors',
                     isSelected ? 'text-primary-600' : 'text-neutral-500'
                   )}
                 />
               )}
-              <span>{getSpeciesDisplayName(species)}</span>
+              <span className="leading-tight">{getSpeciesDisplayName(species)}</span>
             </button>
           );
         })}
       </div>
 
       {/* Action buttons */}
-      <div className="flex justify-between gap-3 pt-2 border-t border-neutral-200">
+      <div className="flex justify-between gap-2 pt-3 border-t border-neutral-200">
         <Button
           variant="ghost"
+          size="sm"
           onClick={handleReset}
-          className="flex-1 text-neutral-600 hover:text-neutral-800"
+          className="flex-1 text-neutral-600 hover:text-neutral-800 h-9"
         >
           Reset
         </Button>
         <Button
+          size="sm"
           onClick={handleApply}
-          className="flex-1 bg-primary-600 hover:bg-primary-700 text-white"
+          className="flex-1 bg-primary-600 hover:bg-primary-700 text-white h-9"
         >
           Apply Filters
         </Button>
