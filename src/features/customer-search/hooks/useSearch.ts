@@ -30,14 +30,19 @@ export const useSearch = () => {
     species: selectedSpecies.length > 0 ? selectedSpecies : undefined,
   }), [searchText, selectedSpecies]);
 
-  // Auto-search when params change with debouncing
+  // Auto-search only for text input with debouncing, not for species filter
   useEffect(() => {
     const timeoutId = setTimeout(() => {
-      refetch(searchParams);
+      const textSearchParams = {
+        searchText: searchText.trim() || undefined,
+        // Don't apply species filter automatically - only on Apply click
+        species: undefined,
+      };
+      refetch(textSearchParams);
     }, 300);
 
     return () => clearTimeout(timeoutId);
-  }, [refetch, searchParams]);
+  }, [searchText, refetch]);
 
   const performSearch = useCallback(() => {
     refetch(searchParams);
