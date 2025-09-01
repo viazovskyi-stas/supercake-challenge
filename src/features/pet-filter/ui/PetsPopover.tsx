@@ -48,25 +48,14 @@ export const PetsPopover: React.FC<PetsPopoverProps> = ({
     setTempSelectedSpecies([]);
   };
 
-  const handleApply = async () => {
-    setIsApplying(true);
-    // Простое применение - заменяем весь массив
+  const handleApply = () => {
     onApplyFilter([...tempSelectedSpecies]);
-    
-    // Небольшая задержка для UX
-    await new Promise(resolve => setTimeout(resolve, 300));
-    setIsApplying(false);
     setIsOpen(false);
   };
 
-  const handleReset = async () => {
-    setIsApplying(true);
+  const handleReset = () => {
     setTempSelectedSpecies([]);
     onApplyFilter([]);
-    
-    // Небольшая задержка для UX
-    await new Promise(resolve => setTimeout(resolve, 300));
-    setIsApplying(false);
     setIsOpen(false);
   };
 
