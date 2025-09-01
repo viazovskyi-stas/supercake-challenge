@@ -1,12 +1,5 @@
-'use client';
-
-import { useMemo } from 'react';
-import { PetsPopover } from '../../../features/pet-filter';
 import { CustomerList } from '../../customer-list';
-import { getAllSpecies } from '../../../shared/utils/species';
-import { SearchInput } from '../../../shared/ui';
-import { useAllCustomers } from '../../../shared/hooks/useAllCustomers';
-import { useUrlSearchParams } from '../../../shared/hooks/useSearchParams';
+import { SearchControls } from './SearchControls';
 import { Customer } from '../../../shared/types';
 
 interface CustomerSearchPageProps {
@@ -20,27 +13,6 @@ export const CustomerSearchPage: React.FC<CustomerSearchPageProps> = ({
   searchText,
   selectedSpecies,
 }) => {
-  const {
-    searchText: urlSearchText,
-    selectedSpecies: urlSelectedSpecies,
-    setSearchText,
-    setSelectedSpecies,
-  } = useUrlSearchParams();
-
-  const { allCustomers } = useAllCustomers();
-
-  const handleSearch = (text: string) => {
-    setSearchText(text);
-  };
-
-  const handleApplySpeciesFilter = (species: string[]) => {
-    setSelectedSpecies(species);
-  };
-
-  const availableSpecies = useMemo(() => {
-    return getAllSpecies(allCustomers.length > 0 ? allCustomers : initialCustomers);
-  }, [allCustomers, initialCustomers]);
-
   return (
     <div className="min-h-screen bg-gray-50">
       <div className="mx-auto max-w-4xl px-6 py-8">
@@ -51,27 +23,12 @@ export const CustomerSearchPage: React.FC<CustomerSearchPageProps> = ({
         </div>
 
         <div className="mb-8">
-          <div className="flex gap-3 items-center">
-            <div className="flex-1">
-              <SearchInput
-                value={urlSearchText}
-                onChange={handleSearch}
-                placeholder="Search by ID, name, email or phone"
-                className="w-full"
-              />
-            </div>
-
-            <PetsPopover
-              availableSpecies={availableSpecies}
-              selectedSpecies={urlSelectedSpecies}
-              onApplyFilter={handleApplySpeciesFilter}
-            />
-          </div>
+          <SearchControls initialCustomers={initialCustomers} />
         </div>
 
         <CustomerList
-          searchText={urlSearchText}
-          selectedSpecies={urlSelectedSpecies}
+          searchText={searchText}
+          selectedSpecies={selectedSpecies}
         />
       </div>
     </div>
