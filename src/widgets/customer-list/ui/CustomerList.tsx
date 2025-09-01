@@ -73,7 +73,7 @@ async function CustomerListData({ searchText, selectedSpecies }: CustomerListPro
                           className="inline-flex items-center gap-1.5 px-2.5 py-1 bg-gray-100 rounded-md text-xs"
                         >
                           {IconComponent && (
-                            <IconComponent size={14} className="text-gray-600" />
+                            <IconComponent width={14} height={14} className="text-gray-600" />
                           )}
                           <span className="font-medium text-gray-800">{pet.name}</span>
                           <span className="text-gray-600">•</span>
