@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Popover, Button, ChevronDownIcon, animalIcons, type AnimalSpecies } from '../../../shared/ui';
+import { Popover, Button, ChevronDownIcon, Spinner, animalIcons, type AnimalSpecies } from '../../../shared/ui';
 import { getSpeciesDisplayName } from '../../../shared/utils/species';
 import { cn } from '../../../shared/utils/cn';
 
@@ -9,6 +9,7 @@ export interface PetsPopoverProps {
   availableSpecies: string[];
   selectedSpecies: string[];
   onApplyFilter: (species: string[]) => void;
+  loading?: boolean;
   className?: string;
 }
 
@@ -16,10 +17,12 @@ export const PetsPopover: React.FC<PetsPopoverProps> = ({
   availableSpecies,
   selectedSpecies,
   onApplyFilter,
+  loading = false,
   className
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [tempSelectedSpecies, setTempSelectedSpecies] = useState<string[]>([]);
+  const [isApplying, setIsApplying] = useState(false);
 
   // Синхронизируем временное состояние с URL при изменении selectedSpecies
   useEffect(() => {
@@ -48,15 +51,25 @@ export const PetsPopover: React.FC<PetsPopoverProps> = ({
     setTempSelectedSpecies([]);
   };
 
-  const handleApply = () => {
+  const handleApply = async () => {
+    setIsApplying(true);
     // Простое применение - заменяем весь массив
     onApplyFilter([...tempSelectedSpecies]);
+    
+    // Небольшая задержка для UX
+    await new Promise(resolve => setTimeout(resolve, 300));
+    setIsApplying(false);
     setIsOpen(false);
   };
 
-  const handleReset = () => {
+  const handleReset = async () => {
+    setIsApplying(true);
     setTempSelectedSpecies([]);
     onApplyFilter([]);
+    
+    // Небольшая задержка для UX
+    await new Promise(resolve => setTimeout(resolve, 300));
+    setIsApplying(false);
     setIsOpen(false);
   };
 
@@ -116,16 +129,32 @@ export const PetsPopover: React.FC<PetsPopoverProps> = ({
           variant="ghost"
           size="sm"
           onClick={handleReset}
+          disabled={isApplying}
           className="flex-1 text-gray-600 hover:text-gray-800 h-9"
         >
-          Reset
+          {isApplying ? (
+            <div className="flex items-center gap-2">
+              <Spinner size="sm" color="gray" />
+              <span>Reset</span>
+            </div>
+          ) : (
+            'Reset'
+          )}
         </Button>
         <Button
           size="sm"
           onClick={handleApply}
+          disabled={isApplying}
           className="flex-1 bg-primary hover:bg-primary-600 text-white h-9"
         >
-          Apply Filters
+          {isApplying ? (
+            <div className="flex items-center gap-2">
+              <Spinner size="sm" color="white" />
+              <span>Applying...</span>
+            </div>
+          ) : (
+            'Apply Filters'
+          )}
         </Button>
       </div>
     </div>

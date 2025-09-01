@@ -1,7 +1,7 @@
 'use client';
 
 import { Customer } from '../../../shared/types';
-import { Badge } from '../../../shared/ui';
+import { Badge, Spinner } from '../../../shared/ui';
 import { animalIcons, type AnimalSpecies } from '../../../shared/ui';
 import { getSpeciesDisplayName } from '../../../shared/utils/species';
 import { cn } from '../../../shared/utils/cn';
@@ -21,10 +21,13 @@ export const CustomerList: React.FC<CustomerListProps> = ({
 }) => {
   if (loading) {
     return (
-      <div className={cn('flex items-center justify-center py-12', className)}>
-        <div className="flex items-center space-x-3">
-          <div className="animate-spin rounded-full h-5 w-5 border-2 border-primary border-t-transparent"></div>
-          <span className="text-gray-600 text-sm">Loading customers...</span>
+      <div className={cn('flex items-center justify-center py-16', className)}>
+        <div className="flex flex-col items-center gap-4">
+          <Spinner size="lg" />
+          <div className="text-center">
+            <div className="text-gray-700 font-medium mb-1">Loading customers...</div>
+            <div className="text-sm text-gray-500">Please wait while we fetch the latest data</div>
+          </div>
         </div>
       </div>
     );

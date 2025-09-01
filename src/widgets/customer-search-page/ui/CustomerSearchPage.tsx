@@ -6,7 +6,7 @@ import { useSearch } from '../../../features/customer-search';
 import { PetsPopover } from '../../../features/pet-filter';
 import { CustomerList } from '../../../widgets/customer-list';
 import { getAllSpecies } from '../../../shared/utils/species';
-import { SearchInput } from '../../../shared/ui';
+import { SearchInput, LoadingOverlay } from '../../../shared/ui';
 import { useAllCustomers } from '../../../shared/hooks/useAllCustomers';
 
 export interface CustomerSearchPageProps {
@@ -61,6 +61,7 @@ export const CustomerSearchPage: React.FC<CustomerSearchPageProps> = ({
                 value={searchText}
                 onChange={handleSearch}
                 placeholder="Search by ID, name, email or phone"
+                loading={loading}
                 className="w-full"
               />
             </div>
@@ -70,16 +71,19 @@ export const CustomerSearchPage: React.FC<CustomerSearchPageProps> = ({
               availableSpecies={availableSpecies}
               selectedSpecies={selectedSpecies}
               onApplyFilter={handleApplySpeciesFilter}
+              loading={loading}
             />
           </div>
         </div>
 
         {/* Results */}
-        <CustomerList
-          customers={displayCustomers}
-          loading={loading}
-          error={error}
-        />
+        <LoadingOverlay show={loading && displayCustomers.length > 0}>
+          <CustomerList
+            customers={displayCustomers}
+            loading={loading && displayCustomers.length === 0}
+            error={error}
+          />
+        </LoadingOverlay>
       </div>
     </div>
   );
