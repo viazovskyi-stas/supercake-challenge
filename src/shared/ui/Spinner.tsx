@@ -37,29 +37,3 @@ export const Spinner: React.FC<SpinnerProps> = ({
     />
   );
 };
-
-export interface LoadingOverlayProps {
-  show: boolean;
-  children: React.ReactNode;
-  className?: string;
-}
-
-export const LoadingOverlay: React.FC<LoadingOverlayProps> = ({
-  show,
-  children,
-  className
-}) => {
-  return (
-    <div className={cn('relative', className)}>
-      {children}
-      {show && (
-        <div className="absolute inset-0 bg-white/60 backdrop-blur-sm flex items-center justify-center z-10 rounded-lg">
-          <div className="flex items-center gap-3 bg-white px-4 py-3 rounded-lg shadow-md border border-gray-200">
-            <Spinner size="sm" />
-            <span className="text-sm text-gray-600 font-medium">Loading...</span>
-          </div>
-        </div>
-      )}
-    </div>
-  );
-};

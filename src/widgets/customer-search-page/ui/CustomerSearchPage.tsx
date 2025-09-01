@@ -1,43 +1,42 @@
 'use client';
 
 import { useMemo } from 'react';
-import { Customer } from '../../../shared/types';
-import { useSearch } from '../../../features/customer-search';
 import { PetsPopover } from '../../../features/pet-filter';
-import { CustomerList } from '../../../widgets/customer-list';
+import { CustomerList } from '../../customer-list';
 import { getAllSpecies } from '../../../shared/utils/species';
-import { SearchInput, LoadingOverlay } from '../../../shared/ui';
+import { SearchInput } from '../../../shared/ui';
 import { useAllCustomers } from '../../../shared/hooks/useAllCustomers';
+import { useUrlSearchParams } from '../../../shared/hooks/useSearchParams';
+import { Customer } from '../../../shared/types';
 
-export interface CustomerSearchPageProps {
+interface CustomerSearchPageProps {
   initialCustomers: Customer[];
-  initialSearchText: string;
-  initialSelectedSpecies: string[];
+  searchText: string;
+  selectedSpecies: string[];
 }
 
 export const CustomerSearchPage: React.FC<CustomerSearchPageProps> = ({
   initialCustomers,
-  initialSearchText,
-  initialSelectedSpecies,
+  searchText,
+  selectedSpecies,
 }) => {
   const {
-    searchText,
-    selectedSpecies,
-    customers,
-    loading,
-    error,
-    handleSearch,
-    handleApplySpeciesFilter,
-    performSearch,
-  } = useSearch();
+    searchText: urlSearchText,
+    selectedSpecies: urlSelectedSpecies,
+    setSearchText,
+    setSelectedSpecies,
+  } = useUrlSearchParams();
 
-  // Получаем всех клиентов для списка видов (без фильтров)
   const { allCustomers } = useAllCustomers();
 
-  // Используем клиентские данные если загружены, иначе серверные
-  const displayCustomers = loading || customers.length > 0 ? customers : initialCustomers;
+  const handleSearch = (text: string) => {
+    setSearchText(text);
+  };
 
-  // Получаем все доступные виды из всех клиентов (не отфильтрованных)
+  const handleApplySpeciesFilter = (species: string[]) => {
+    setSelectedSpecies(species);
+  };
+
   const availableSpecies = useMemo(() => {
     return getAllSpecies(allCustomers.length > 0 ? allCustomers : initialCustomers);
   }, [allCustomers, initialCustomers]);
@@ -45,45 +44,35 @@ export const CustomerSearchPage: React.FC<CustomerSearchPageProps> = ({
   return (
     <div className="min-h-screen bg-gray-50">
       <div className="mx-auto max-w-4xl px-6 py-8">
-        {/* Header */}
         <div className="mb-8">
           <h1 className="text-2xl font-semibold text-gray-900 mb-2">
             Customers and Pets
           </h1>
         </div>
 
-        {/* Search and Filter */}
         <div className="mb-8">
           <div className="flex gap-3 items-center">
-            {/* Search Input */}
             <div className="flex-1">
               <SearchInput
-                value={searchText}
+                value={urlSearchText}
                 onChange={handleSearch}
                 placeholder="Search by ID, name, email or phone"
-                loading={loading}
                 className="w-full"
               />
             </div>
-            
-            {/* Pets Filter Popover */}
+
             <PetsPopover
               availableSpecies={availableSpecies}
-              selectedSpecies={selectedSpecies}
+              selectedSpecies={urlSelectedSpecies}
               onApplyFilter={handleApplySpeciesFilter}
-              loading={loading}
             />
           </div>
         </div>
 
-        {/* Results */}
-        <LoadingOverlay show={loading && displayCustomers.length > 0}>
-          <CustomerList
-            customers={displayCustomers}
-            loading={loading && displayCustomers.length === 0}
-            error={error}
-          />
-        </LoadingOverlay>
+        <CustomerList
+          searchText={urlSearchText}
+          selectedSpecies={urlSelectedSpecies}
+        />
       </div>
     </div>
   );
