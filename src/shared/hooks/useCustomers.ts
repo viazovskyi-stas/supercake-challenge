@@ -23,9 +23,10 @@ export const useCustomers = () => {
     }
   }, []);
 
-  useEffect(() => {
-    fetchCustomers();
-  }, [fetchCustomers]);
+  // Не загружаем автоматически при инициализации - используем SSR данные
+  // useEffect(() => {
+  //   fetchCustomers();
+  // }, [fetchCustomers]);
 
   return {
     customers,

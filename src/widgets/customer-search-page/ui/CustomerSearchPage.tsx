@@ -27,16 +27,15 @@ export const CustomerSearchPage: React.FC<CustomerSearchPageProps> = ({
     loading,
     error,
     handleSearch,
-    handleSpeciesToggle,
-    handleSpeciesClear,
+    handleApplySpeciesFilter,
     performSearch,
   } = useSearch();
 
   // Получаем всех клиентов для списка видов (без фильтров)
   const { allCustomers } = useAllCustomers();
 
-  // Используем либо клиентские данные (если есть), либо серверные
-  const displayCustomers = customers.length > 0 || loading ? customers : initialCustomers;
+  // Используем клиентские данные если загружены, иначе серверные
+  const displayCustomers = loading || customers.length > 0 ? customers : initialCustomers;
 
   // Получаем все доступные виды из всех клиентов (не отфильтрованных)
   const availableSpecies = useMemo(() => {
@@ -70,9 +69,7 @@ export const CustomerSearchPage: React.FC<CustomerSearchPageProps> = ({
             <PetsPopover
               availableSpecies={availableSpecies}
               selectedSpecies={selectedSpecies}
-              onSpeciesToggle={handleSpeciesToggle}
-              onClear={handleSpeciesClear}
-              onApply={performSearch}
+              onApplyFilter={handleApplySpeciesFilter}
             />
           </div>
         </div>

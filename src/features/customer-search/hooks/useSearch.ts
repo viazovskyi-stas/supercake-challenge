@@ -19,16 +19,8 @@ export const useSearch = () => {
     setSearchText(text);
   }, [setSearchText]);
 
-  const handleSpeciesToggle = useCallback((species: string) => {
-    setSelectedSpecies(
-      selectedSpecies.includes(species) 
-        ? selectedSpecies.filter(s => s !== species)
-        : [...selectedSpecies, species]
-    );
-  }, [selectedSpecies, setSelectedSpecies]);
-
-  const handleSpeciesClear = useCallback(() => {
-    setSelectedSpecies([]);
+  const handleApplySpeciesFilter = useCallback((species: string[]) => {
+    setSelectedSpecies(species);
   }, [setSelectedSpecies]);
 
   const searchParams = useMemo(() => ({
@@ -36,24 +28,17 @@ export const useSearch = () => {
     species: selectedSpecies.length > 0 ? selectedSpecies : undefined,
   }), [searchText, selectedSpecies]);
 
-  // Auto-search for text input with debouncing
+  // Auto-search для текста
   useEffect(() => {
     const timeoutId = setTimeout(() => {
-      const textSearchParams = {
+      refetch({
         searchText: searchText.trim() || undefined,
-        // Don't auto-apply species filter - only on manual Apply
-        species: undefined,
-      };
-      refetch(textSearchParams);
+        species: selectedSpecies.length > 0 ? selectedSpecies : undefined,
+      });
     }, 300);
 
     return () => clearTimeout(timeoutId);
-  }, [searchText, refetch]);
-
-  // Apply filter when URL params change (for both search and species)
-  useEffect(() => {
-    refetch(searchParams);
-  }, [selectedSpecies, refetch, searchParams]);
+  }, [searchText, refetch, selectedSpecies]);
 
   const performSearch = useCallback(() => {
     refetch(searchParams);
@@ -66,8 +51,7 @@ export const useSearch = () => {
     loading,
     error,
     handleSearch,
-    handleSpeciesToggle,
-    handleSpeciesClear,
+    handleApplySpeciesFilter,
     performSearch,
     clearAll,
   };

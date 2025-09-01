@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Popover, Button, ChevronDownIcon, animalIcons, type AnimalSpecies } from '../../../shared/ui';
 import { getSpeciesDisplayName } from '../../../shared/utils/species';
 import { cn } from '../../../shared/utils/cn';
@@ -8,30 +8,30 @@ import { cn } from '../../../shared/utils/cn';
 export interface PetsPopoverProps {
   availableSpecies: string[];
   selectedSpecies: string[];
-  onSpeciesToggle: (species: string) => void;
-  onClear: () => void;
-  onApply: () => void;
+  onApplyFilter: (species: string[]) => void;
   className?: string;
 }
 
 export const PetsPopover: React.FC<PetsPopoverProps> = ({
   availableSpecies,
   selectedSpecies,
-  onSpeciesToggle,
-  onClear,
-  onApply,
+  onApplyFilter,
   className
 }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [tempSelectedSpecies, setTempSelectedSpecies] = useState<string[]>(selectedSpecies);
+  const [tempSelectedSpecies, setTempSelectedSpecies] = useState<string[]>([]);
 
-  // Синхронизируем временное состояние с реальным при изменении selectedSpecies или открытии
+  // Синхронизируем временное состояние с URL при изменении selectedSpecies
+  useEffect(() => {
+    setTempSelectedSpecies([...selectedSpecies]);
+  }, [selectedSpecies]);
+
   const hasAnySelected = tempSelectedSpecies.length > 0;
 
   const handleOpenChange = (open: boolean) => {
     setIsOpen(open);
     if (open) {
-      // При открытии - синхронизируем с текущим состоянием URL
+      // При открытии берем текущее состояние из URL
       setTempSelectedSpecies([...selectedSpecies]);
     }
   };
@@ -45,33 +45,18 @@ export const PetsPopover: React.FC<PetsPopoverProps> = ({
   };
 
   const handleAnyAnimalClick = () => {
-    if (hasAnySelected) {
-      setTempSelectedSpecies([]);
-    }
+    setTempSelectedSpecies([]);
   };
 
   const handleApply = () => {
-    // Применяем временные изменения к реальному состоянию
-    tempSelectedSpecies.forEach(species => {
-      if (!selectedSpecies.includes(species)) {
-        onSpeciesToggle(species);
-      }
-    });
-    
-    selectedSpecies.forEach(species => {
-      if (!tempSelectedSpecies.includes(species)) {
-        onSpeciesToggle(species);
-      }
-    });
-    
-    onApply();
+    // Простое применение - заменяем весь массив
+    onApplyFilter([...tempSelectedSpecies]);
     setIsOpen(false);
   };
 
   const handleReset = () => {
     setTempSelectedSpecies([]);
-    onClear();
-    setTimeout(() => onApply(), 0);
+    onApplyFilter([]);
     setIsOpen(false);
   };
 
