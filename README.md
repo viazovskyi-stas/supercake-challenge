@@ -1,4 +1,4 @@
-# Supercake Coding Challenge -  Customer Search
+# Supercake Coding Challenge - Customer Search
 
 **Developed by Viazovskyi Stanislav**  
 *Full-stack Developer*
@@ -139,3 +139,7 @@ The application integrates with the existing `/api/customers` endpoint:
 - **Desktop**: Three column grid with horizontal filter layout
 
 The interface adapts seamlessly across all device sizes while maintaining usability and visual hierarchy.
+
+## 📝 Development Notes
+
+*Note: During development, access to the Figma design file was not available, which made it challenging to extract exact design values, spacing, and color specifications. The UI was implemented based on best practices and modern design principles.*
