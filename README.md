@@ -142,4 +142,4 @@ The interface adapts seamlessly across all device sizes while maintaining usabil
 
 ## 📝 Development Notes
 
-*Note: During development, access to the Figma design file was not available, which made it challenging to extract exact design values, spacing, and color specifications. The UI was implemented based on best practices and modern design principles.*
+*Note: During development, there was no access to the Dev mode in Figma, which made it challenging to extract exact design values, spacing, and color specifications. The UI was implemented based on best practices and modern design principles.*
