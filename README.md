@@ -9,9 +9,9 @@ A modern, responsive customer search interface for veterinary clinics built with
 
 ## 🎬 Demo
 
-https://github.com/user/supercake-challenge/assets/123456789/showcase.mp4
+[![Demo Video](showcase.mp4)](showcase.mp4)
 
-*Note: Replace the URL above with your actual GitHub asset URL after uploading the video.*
+*Click to view the application demo video.*
 
 ## ✨ Features
 
