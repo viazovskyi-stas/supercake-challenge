@@ -1,4 +1,4 @@
-# Supercake Coding Challenge - Veterinary Customer Search
+# Supercake Coding Challenge -  Customer Search
 
 **Developed by Viazovskyi Stanislav**  
 *Full-stack Developer*
