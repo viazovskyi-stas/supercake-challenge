@@ -1,13 +1,14 @@
 import { Suspense } from "react";
-import { ServerCustomersApi } from "../../../shared/api/server-customers";
-import { Customer } from "../../../shared/types";
-import { Badge, ServerSuspenseLoader } from "../../../shared/ui";
+import { ServerCustomersApi } from "@/shared/api/server-customers";
+import { Customer } from "@/shared/types";
+import { Badge } from "@/shared/ui";
+import { ServerSuspenseLoader } from "@/shared/ui/ServerSuspenseLoader";
 import {
   animalIcons,
   type AnimalSpecies,
-} from "../../../shared/ui/icons/AnimalIcons";
-import { getSpeciesDisplayName } from "../../../shared/utils/species";
-import { cn } from "../../../shared/utils/cn";
+} from "@/shared/ui/icons/AnimalIcons";
+import { getSpeciesDisplayName } from "@/shared/utils/species";
+import { cn } from "@/shared/utils/cn";
 
 interface CustomerListProps {
   searchText?: string;

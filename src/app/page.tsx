@@ -1,5 +1,5 @@
-import { ServerCustomersApi } from "../shared/api/server-customers";
-import { CustomerSearchPage } from "../widgets/customer-search-page";
+import { ServerCustomersApi } from "@/shared/api/server-customers";
+import { CustomerSearchPage } from "@/widgets/customer-search-page";
 
 interface HomePageProps {
   searchParams: Promise<{

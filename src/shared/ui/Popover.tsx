@@ -1,7 +1,7 @@
 "use client";
 
 import * as RadixPopover from "@radix-ui/react-popover";
-import { cn } from "../utils/cn";
+import { cn } from "@/shared/utils/cn";
 
 export interface PopoverProps {
   children: React.ReactNode;

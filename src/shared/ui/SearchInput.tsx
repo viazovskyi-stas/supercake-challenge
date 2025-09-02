@@ -2,7 +2,7 @@
 
 import { forwardRef, InputHTMLAttributes } from "react";
 import { SearchIcon } from "./icons";
-import { cn } from "../utils/cn";
+import { cn } from "@/shared/utils/cn";
 
 export interface SearchInputProps
   extends Omit<InputHTMLAttributes<HTMLInputElement>, "onChange"> {

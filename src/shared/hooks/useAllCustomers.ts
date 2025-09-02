@@ -1,8 +1,8 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Customer } from "../types";
-import { CustomersApi } from "../api/customers";
+import { Customer } from "@/shared/types";
+import { CustomersApi } from "@/shared/api/customers";
 
 // Hook for getting all customers without any filters (for species list)
 export const useAllCustomers = () => {

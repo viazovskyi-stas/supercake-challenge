@@ -1,13 +1,14 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Popover, Button, ChevronDownIcon, Badge } from "../../../shared/ui";
+import { Popover, Button, Badge } from "@/shared/ui";
+import { ChevronDownIcon } from "@/shared/ui/icons/ChevronDownIcon";
 import {
   animalIcons,
   type AnimalSpecies,
-} from "../../../shared/ui/icons/AnimalIcons";
-import { getSpeciesDisplayName } from "../../../shared/utils/species";
-import { cn } from "../../../shared/utils/cn";
+} from "@/shared/ui/icons/AnimalIcons";
+import { getSpeciesDisplayName } from "@/shared/utils/species";
+import { cn } from "@/shared/utils/cn";
 
 export interface PetsPopoverProps {
   availableSpecies: string[];
@@ -127,22 +128,16 @@ export const PetsPopover: React.FC<PetsPopoverProps> = ({
         align="end"
         sideOffset={12}
       >
-        <button
-          className={cn(
-            "flex items-center justify-between gap-2 px-4 py-2.5 bg-white border border-gray-300 rounded-lg text-sm font-medium text-gray-700",
-            "hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2",
-            "transition-colors min-w-[6.25rem]",
-          )}
-        >
+        <Button variant="outline" className="h-full">
           <span>{displayText}</span>
           <ChevronDownIcon
             size={16}
             className={cn(
               "text-gray-500 transition-transform duration-200",
-              isOpen && "rotate-180",
+              isOpen && "rotate-180 border-gray-300",
             )}
           />
-        </button>
+        </Button>
       </Popover>
     </div>
   );

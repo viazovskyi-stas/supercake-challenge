@@ -1,4 +1,4 @@
-import { SearchParams, CustomersResponse } from "../types";
+import { SearchParams, CustomersResponse } from "@/shared/types";
 
 export class CustomersApi {
   private static baseUrl = "/api/customers";

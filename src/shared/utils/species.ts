@@ -1,4 +1,4 @@
-import { Customer } from "../types";
+import { Customer } from "@/shared/types";
 
 export const getAllSpecies = (customers: Customer[]): string[] => {
   const speciesSet = new Set<string>();

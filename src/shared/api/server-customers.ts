@@ -1,4 +1,4 @@
-import { SearchParams, CustomersResponse } from "../types";
+import { SearchParams, CustomersResponse } from "@/shared/types";
 
 // Серверный API клиент для использования в Server Components
 export class ServerCustomersApi {

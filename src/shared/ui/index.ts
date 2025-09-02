@@ -14,5 +14,6 @@ export {
 } from "./Card";
 export { Popover, type PopoverProps } from "./Popover";
 export { Spinner, type SpinnerProps } from "./Spinner";
-export { ServerSuspenseLoader } from "./ServerSuspenseLoader";
+// ServerSuspenseLoader excluded from barrel export to avoid server/client conflicts
+// export { ServerSuspenseLoader } from "./ServerSuspenseLoader";
 export * from "./icons";

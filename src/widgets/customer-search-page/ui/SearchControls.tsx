@@ -1,12 +1,12 @@
 "use client";
 
 import { useMemo } from "react";
-import { PetsPopover } from "../../../features/pet-filter";
-import { getAllSpecies } from "../../../shared/utils/species";
-import { SearchInput } from "../../../shared/ui";
-import { useAllCustomers } from "../../../shared/hooks/useAllCustomers";
-import { useUrlSearchParams } from "../../../shared/hooks/useSearchParams";
-import { Customer } from "../../../shared/types";
+import { PetsPopover } from "@/features/pet-filter";
+import { getAllSpecies } from "@/shared/utils/species";
+import { SearchInput } from "@/shared/ui";
+import { useAllCustomers } from "@/shared/hooks/useAllCustomers";
+import { useUrlSearchParams } from "@/shared/hooks/useSearchParams";
+import { Customer } from "@/shared/types";
 
 interface SearchControlsProps {
   initialCustomers: Customer[];
