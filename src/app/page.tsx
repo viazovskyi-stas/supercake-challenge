@@ -1,5 +1,5 @@
-import { ServerCustomersApi } from '../shared/api/server-customers';
-import { CustomerSearchPage } from '../widgets/customer-search-page';
+import { ServerCustomersApi } from "../shared/api/server-customers";
+import { CustomerSearchPage } from "../widgets/customer-search-page";
 
 interface HomePageProps {
   searchParams: Promise<{
@@ -10,9 +10,9 @@ interface HomePageProps {
 
 export default async function Home({ searchParams }: HomePageProps) {
   const resolvedSearchParams = await searchParams;
-  const searchText = resolvedSearchParams.search || '';
-  const selectedSpecies = resolvedSearchParams.species 
-    ? resolvedSearchParams.species.split(',').filter(Boolean) 
+  const searchText = resolvedSearchParams.search || "";
+  const selectedSpecies = resolvedSearchParams.species
+    ? resolvedSearchParams.species.split(",").filter(Boolean)
     : [];
 
   const customersData = await ServerCustomersApi.getCustomers({

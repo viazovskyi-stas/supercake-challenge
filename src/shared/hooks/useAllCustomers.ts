@@ -1,8 +1,8 @@
-'use client';
+"use client";
 
-import { useState, useEffect } from 'react';
-import { Customer } from '../types';
-import { CustomersApi } from '../api/customers';
+import { useState, useEffect } from "react";
+import { Customer } from "../types";
+import { CustomersApi } from "../api/customers";
 
 // Hook for getting all customers without any filters (for species list)
 export const useAllCustomers = () => {
@@ -16,7 +16,7 @@ export const useAllCustomers = () => {
         const response = await CustomersApi.getCustomers({});
         setAllCustomers(response.customers);
       } catch (error) {
-        console.error('Failed to fetch all customers:', error);
+        console.error("Failed to fetch all customers:", error);
       } finally {
         setLoading(false);
       }

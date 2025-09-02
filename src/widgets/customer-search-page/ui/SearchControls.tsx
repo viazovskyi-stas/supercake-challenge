@@ -1,24 +1,22 @@
-'use client';
+"use client";
 
-import { useMemo } from 'react';
-import { PetsPopover } from '../../../features/pet-filter';
-import { getAllSpecies } from '../../../shared/utils/species';
-import { SearchInput } from '../../../shared/ui';
-import { useAllCustomers } from '../../../shared/hooks/useAllCustomers';
-import { useUrlSearchParams } from '../../../shared/hooks/useSearchParams';
-import { Customer } from '../../../shared/types';
+import { useMemo } from "react";
+import { PetsPopover } from "../../../features/pet-filter";
+import { getAllSpecies } from "../../../shared/utils/species";
+import { SearchInput } from "../../../shared/ui";
+import { useAllCustomers } from "../../../shared/hooks/useAllCustomers";
+import { useUrlSearchParams } from "../../../shared/hooks/useSearchParams";
+import { Customer } from "../../../shared/types";
 
 interface SearchControlsProps {
   initialCustomers: Customer[];
 }
 
-export const SearchControls: React.FC<SearchControlsProps> = ({ initialCustomers }) => {
-  const {
-    searchText,
-    selectedSpecies,
-    setSearchText,
-    setSelectedSpecies,
-  } = useUrlSearchParams();
+export const SearchControls: React.FC<SearchControlsProps> = ({
+  initialCustomers,
+}) => {
+  const { searchText, selectedSpecies, setSearchText, setSelectedSpecies } =
+    useUrlSearchParams();
 
   const { allCustomers } = useAllCustomers();
 
@@ -31,7 +29,9 @@ export const SearchControls: React.FC<SearchControlsProps> = ({ initialCustomers
   };
 
   const availableSpecies = useMemo(() => {
-    return getAllSpecies(allCustomers.length > 0 ? allCustomers : initialCustomers);
+    return getAllSpecies(
+      allCustomers.length > 0 ? allCustomers : initialCustomers,
+    );
   }, [allCustomers, initialCustomers]);
 
   return (

@@ -1,6 +1,6 @@
-import { CustomerList } from '../../customer-list';
-import { SearchControls } from './SearchControls';
-import { Customer } from '../../../shared/types';
+import { CustomerList } from "../../customer-list";
+import { SearchControls } from "./SearchControls";
+import { Customer } from "../../../shared/types";
 
 interface CustomerSearchPageProps {
   initialCustomers: Customer[];

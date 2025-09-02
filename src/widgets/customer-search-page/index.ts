@@ -1,1 +1,1 @@
-export { CustomerSearchPage } from './ui/CustomerSearchPage';
+export { CustomerSearchPage } from "./ui/CustomerSearchPage";

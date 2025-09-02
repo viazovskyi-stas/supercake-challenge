@@ -1,9 +1,13 @@
-'use client';
+"use client";
 
-import { useState, useEffect } from 'react';
-import { Popover, Button, ChevronDownIcon, animalIcons, type AnimalSpecies } from '../../../shared/ui';
-import { getSpeciesDisplayName } from '../../../shared/utils/species';
-import { cn } from '../../../shared/utils/cn';
+import { useState, useEffect } from "react";
+import { Popover, Button, ChevronDownIcon, Badge } from "../../../shared/ui";
+import {
+  animalIcons,
+  type AnimalSpecies,
+} from "../../../shared/ui/icons/AnimalIcons";
+import { getSpeciesDisplayName } from "../../../shared/utils/species";
+import { cn } from "../../../shared/utils/cn";
 
 export interface PetsPopoverProps {
   availableSpecies: string[];
@@ -16,12 +20,11 @@ export const PetsPopover: React.FC<PetsPopoverProps> = ({
   availableSpecies,
   selectedSpecies,
   onApplyFilter,
-  className
+  className,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [tempSelectedSpecies, setTempSelectedSpecies] = useState<string[]>([]);
 
-  // Синхронизируем временное состояние с URL при изменении selectedSpecies
   useEffect(() => {
     setTempSelectedSpecies([...selectedSpecies]);
   }, [selectedSpecies]);
@@ -37,10 +40,10 @@ export const PetsPopover: React.FC<PetsPopoverProps> = ({
   };
 
   const handleTempSpeciesToggle = (species: string) => {
-    setTempSelectedSpecies(prev => 
-      prev.includes(species) 
-        ? prev.filter(s => s !== species)
-        : [...prev, species]
+    setTempSelectedSpecies((prev) =>
+      prev.includes(species)
+        ? prev.filter((s) => s !== species)
+        : [...prev, species],
     );
   };
 
@@ -60,79 +63,59 @@ export const PetsPopover: React.FC<PetsPopoverProps> = ({
   };
 
   const popoverContent = (
-    <div className="w-72">
-      {/* Any Animal button */}
-      <div className="mb-3">
-        <button
+    <div className="min-w-40 w-[20rem]">
+      <div className="flex flex-wrap gap-2 p-4">
+        <Badge
+          variant={!hasAnySelected ? "filter-selected" : "filter"}
           onClick={handleAnyAnimalClick}
-          className={cn(
-            'w-full px-3 py-2.5 rounded-lg text-center font-medium text-sm transition-colors',
-            !hasAnySelected 
-              ? 'bg-primary text-white' 
-              : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-          )}
+          className="no-wrap text-sm font-medium"
         >
           Any Animal
-        </button>
-      </div>
-
-      {/* Species buttons grid */}
-      <div className="grid grid-cols-3 gap-2 mb-4">
+        </Badge>
         {availableSpecies.map((species) => {
           const isSelected = tempSelectedSpecies.includes(species);
           const IconComponent = animalIcons[species as AnimalSpecies];
-          
           return (
-            <button
+            <Badge
               key={species}
+              variant={isSelected ? "filter-selected" : "filter"}
               onClick={() => handleTempSpeciesToggle(species)}
-              className={cn(
-                'flex flex-col items-center gap-1.5 p-2.5 rounded-lg text-xs font-medium transition-all aspect-square',
-                'border-2 min-h-[68px]',
-                isSelected
-                  ? 'border-primary bg-primary-100 text-primary-700'
-                  : 'border-gray-200 bg-white text-gray-600 hover:border-gray-300 hover:bg-gray-50'
-              )}
+              className="justify-start min-w-fit px-4 py-1.5"
             >
-              {IconComponent && (
-                                  <IconComponent 
-                  size={18} 
-                  className={cn(
-                    'transition-colors',
-                    isSelected ? 'text-primary' : 'text-gray-500'
-                  )}
+              {IconComponent ? (
+                <IconComponent
+                  size={16}
+                  className="flex-shrink-0"
                 />
+              ) : (
+                <div className="w-4 h-4 bg-gray-300 rounded flex-shrink-0" />
               )}
-              <span className="leading-tight">{getSpeciesDisplayName(species)}</span>
-            </button>
+              <span className="no-wrap text-sm font-medium">{getSpeciesDisplayName(species)}</span>
+            </Badge>
           );
         })}
       </div>
 
       {/* Action buttons */}
-      <div className="flex justify-between gap-2 pt-3 border-t border-gray-200">
+      <div className="flex justify-between gap-2 border-t border-gray-200 p-4">
         <Button
-          variant="ghost"
-          size="sm"
+          variant="outline"
           onClick={handleReset}
-          className="flex-1 text-gray-600 hover:text-gray-800 h-9"
+          className="w-full text-gray-600 hover:text-gray-800"
         >
           Reset
         </Button>
         <Button
-          size="sm"
           onClick={handleApply}
-          className="flex-1 bg-primary hover:bg-primary-600 text-white h-9"
-        >
+          className="w-full bg-primary hover:bg-primary-600 text-white">
           Apply Filters
         </Button>
       </div>
     </div>
   );
 
-  const displayText = selectedSpecies.length > 0 
-    ? `${selectedSpecies.length} selected`
-    : 'Pets';
+  const displayText =
+    selectedSpecies.length > 0 ? `${selectedSpecies.length} selected` : "Pets";
 
   return (
     <div className={className}>
@@ -146,17 +129,17 @@ export const PetsPopover: React.FC<PetsPopoverProps> = ({
       >
         <button
           className={cn(
-            'flex items-center justify-between gap-2 px-4 py-2.5 bg-white border border-gray-300 rounded-lg text-sm font-medium text-gray-700',
-            'hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2',
-            'transition-colors min-w-[100px]'
+            "flex items-center justify-between gap-2 px-4 py-2.5 bg-white border border-gray-300 rounded-lg text-sm font-medium text-gray-700",
+            "hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2",
+            "transition-colors min-w-[6.25rem]",
           )}
         >
           <span>{displayText}</span>
-          <ChevronDownIcon 
-            size={16} 
+          <ChevronDownIcon
+            size={16}
             className={cn(
-              'text-gray-500 transition-transform duration-200',
-              isOpen && 'rotate-180'
+              "text-gray-500 transition-transform duration-200",
+              isOpen && "rotate-180",
             )}
           />
         </button>

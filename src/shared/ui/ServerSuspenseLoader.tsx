@@ -1,4 +1,4 @@
-import { Spinner } from './Spinner';
+import { Spinner } from "./Spinner";
 
 export const ServerSuspenseLoader = () => {
   return (
@@ -27,8 +27,12 @@ export const ServerSuspenseLoader = () => {
           <div className="flex flex-col items-center gap-4">
             <Spinner size="lg" />
             <div className="text-center">
-              <div className="text-gray-700 font-medium mb-1">Loading customers...</div>
-              <div className="text-sm text-gray-500">Please wait while we fetch the latest data</div>
+              <div className="text-gray-700 font-medium mb-1">
+                Loading customers...
+              </div>
+              <div className="text-sm text-gray-500">
+                Please wait while we fetch the latest data
+              </div>
             </div>
           </div>
         </div>

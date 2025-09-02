@@ -37,11 +37,13 @@ src/
 ## 🚀 Getting Started
 
 1. **Install dependencies:**
+
    ```bash
    npm install
    ```
 
 2. **Run the development server:**
+
    ```bash
    npm run dev
    ```
@@ -60,17 +62,20 @@ src/
 ## 📱 Interface Overview
 
 ### Search Functionality
+
 - Text-based search across customer names, emails, phones, and pet names
 - Real-time results with 300ms debouncing for optimal performance
 - Case-insensitive matching with exact ID lookup support
 
 ### Species Filtering
+
 - Visual toggle buttons for each pet species
 - Color-coded badges for different species (dogs, cats, birds, etc.)
 - Clear all filters functionality
 - Real-time filtering combined with text search
 
 ### Customer Display
+
 - Card-based layout with customer information
 - Pet badges showing name and species
 - Responsive grid layout (1/2/3 columns based on screen size)
@@ -99,6 +104,7 @@ npm run checks     # Run all quality checks
 ## 🔍 API Integration
 
 The application integrates with the existing `/api/customers` endpoint:
+
 - Supports `searchText` parameter for text-based search
 - Supports `species` parameter for filtering by pet species (comma-separated)
 - Returns filtered customer data with their pets
