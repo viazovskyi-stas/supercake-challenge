@@ -1,12 +1,13 @@
 import { CustomerList } from "@/widgets/customer-list";
 import { SearchControls } from "./SearchControls";
 import { Customer } from "@/shared/types";
+import { Species, TagName } from "@/shared/utils/species";
 
 interface CustomerSearchPageProps {
   initialCustomers: Customer[];
   searchText: string;
-  selectedSpecies: string[];
-  selectedTags: string[];
+  selectedSpecies: Species[];
+  selectedTags: TagName[];
 }
 
 export const CustomerSearchPage: React.FC<CustomerSearchPageProps> = ({

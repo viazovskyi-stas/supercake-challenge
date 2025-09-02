@@ -7,15 +7,15 @@ import {
   animalIcons,
   type AnimalSpecies,
 } from "@/shared/ui/icons/AnimalIcons";
-import { getSpeciesDisplayName } from "@/shared/utils/species";
+import { getSpeciesDisplayName, getSpeciesIcon, getTagColor, TagName, Species } from "@/shared/utils/species";
 import { cn } from "@/shared/utils/cn";
 
 export interface PetsPopoverProps {
-  availableSpecies: string[];
-  selectedSpecies: string[];
-  availableTags: string[];
-  selectedTags: string[];
-  onApplyFilter: (species: string[], tags: string[]) => void;
+  availableSpecies: Species[];
+  selectedSpecies: Species[];
+  availableTags: TagName[];
+  selectedTags: TagName[];
+  onApplyFilter: (species: Species[], tags: TagName[]) => void;
   className?: string;
 }
 
@@ -28,8 +28,8 @@ export const PetsPopover: React.FC<PetsPopoverProps> = ({
   className,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [tempSelectedSpecies, setTempSelectedSpecies] = useState<string[]>([]);
-  const [tempSelectedTags, setTempSelectedTags] = useState<string[]>([]);
+  const [tempSelectedSpecies, setTempSelectedSpecies] = useState<Species[]>([]);
+  const [tempSelectedTags, setTempSelectedTags] = useState<TagName[]>([]);
   const [tagInput, setTagInput] = useState("");
 
   useEffect(() => {
@@ -49,7 +49,7 @@ export const PetsPopover: React.FC<PetsPopoverProps> = ({
     }
   };
 
-  const handleTempSpeciesToggle = (species: string) => {
+  const handleTempSpeciesToggle = (species: Species) => {
     setTempSelectedSpecies((prev) =>
       prev.includes(species)
         ? prev.filter((s) => s !== species)
@@ -57,14 +57,14 @@ export const PetsPopover: React.FC<PetsPopoverProps> = ({
     );
   };
 
-  const handleTempTagAdd = (tag: string) => {
+  const handleTempTagAdd = (tag: TagName) => {
     if (!tempSelectedTags.includes(tag)) {
       setTempSelectedTags((prev) => [...prev, tag]);
     }
     setTagInput("");
   };
 
-  const handleTempTagRemove = (tagToRemove: string) => {
+  const handleTempTagRemove = (tagToRemove: TagName) => {
     setTempSelectedTags((prev) => prev.filter((tag) => tag !== tagToRemove));
   };
 
@@ -88,7 +88,8 @@ export const PetsPopover: React.FC<PetsPopoverProps> = ({
   const handleTagInputKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter" && tagInput.trim()) {
       e.preventDefault();
-      handleTempTagAdd(tagInput.trim());
+      const tag = tagInput.trim() as TagName;
+      handleTempTagAdd(tag);
     }
   };
 
@@ -143,26 +144,9 @@ export const PetsPopover: React.FC<PetsPopoverProps> = ({
           className="mb-3"
         />
 
-        {/* Selected Tags */}
-        {tempSelectedTags.length > 0 && (
-          <div className="flex flex-wrap gap-2 mb-3">
-            {tempSelectedTags.map((tag) => (
-              <Badge
-                key={tag}
-                variant="filter-selected"
-                onClick={() => handleTempTagRemove(tag)}
-                className="cursor-pointer flex items-center gap-1"
-              >
-                {tag}
-                <span className="text-xs ml-1">×</span>
-              </Badge>
-            ))}
-          </div>
-        )}
-
         {/* Available Tags Dropdown */}
         {tagInput && filteredTags.length > 0 && (
-          <div className="bg-white border border-gray-200 rounded-md shadow-sm max-h-32 overflow-y-auto">
+          <div className="bg-white border border-gray-200 rounded-md shadow-sm max-h-32 overflow-y-auto mb-3">
             {filteredTags.slice(0, 5).map((tag) => (
               <div
                 key={tag}
@@ -172,6 +156,26 @@ export const PetsPopover: React.FC<PetsPopoverProps> = ({
                 {tag}
               </div>
             ))}
+          </div>
+        )}
+
+        {/* Selected Tags */}
+        {tempSelectedTags.length > 0 && (
+          <div className="flex flex-wrap gap-2">
+            {tempSelectedTags.map((tag) => {
+              const colors = getTagColor(tag);
+              return (
+                <Badge
+                  key={tag}
+                  variant="secondary"
+                  onClick={() => handleTempTagRemove(tag)}
+                  className={`cursor-pointer flex items-center gap-1 ${colors.bg} ${colors.text} ${colors.border} border ${colors.hover}`}
+                >
+                  {tag}
+                  <span className="text-xs ml-1">×</span>
+                </Badge>
+              );
+            })}
           </div>
         )}
       </div>

@@ -2,7 +2,7 @@
 
 import { useMemo } from "react";
 import { PetsPopover } from "@/features/pet-filter";
-import { getAllSpecies, getAllTags } from "@/shared/utils/species";
+import { getAllSpecies, getAllTags, TagName, Species } from "@/shared/utils/species";
 import { SearchInput } from "@/shared/ui";
 import { useAllCustomers } from "@/shared/hooks/useAllCustomers";
 import { useUrlSearchParams } from "@/shared/hooks/useSearchParams";
@@ -24,7 +24,7 @@ export const SearchControls: React.FC<SearchControlsProps> = ({
     setSearchText(text);
   };
 
-  const handleApplyFilter = (species: string[], tags: string[]) => {
+  const handleApplyFilter = (species: Species[], tags: TagName[]) => {
     setFilters(species, tags);
   };
 

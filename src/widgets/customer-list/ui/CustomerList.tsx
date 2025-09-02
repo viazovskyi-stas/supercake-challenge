@@ -7,12 +7,12 @@ import {
   animalIcons,
   type AnimalSpecies,
 } from "@/shared/ui/icons/AnimalIcons";
-import { getSpeciesDisplayName } from "@/shared/utils/species";
+import { getSpeciesDisplayName, getSpeciesIcon, getTagColor, Species, TagName } from "@/shared/utils/species";
 
 interface CustomerListProps {
   searchText?: string;
-  selectedSpecies?: string[];
-  selectedTags?: string[];
+  selectedSpecies?: Species[];
+  selectedTags?: TagName[];
   className?: string;
 }
 
@@ -118,8 +118,9 @@ async function CustomerListData({
                               <h4 className="font-medium text-gray-900 text-sm truncate">
                                 {pet.name}
                               </h4>
-                              <p className="text-xs text-gray-500">
-                                {getSpeciesDisplayName(pet.species)}
+                              <p className="text-xs text-gray-500 flex items-center gap-1">
+                                <span>{getSpeciesIcon(pet.species)}</span>
+                                <span>{getSpeciesDisplayName(pet.species)}</span>
                               </p>
                             </div>
                           </div>
@@ -127,15 +128,18 @@ async function CustomerListData({
                           {/* Pet Tags */}
                           {pet.tags && pet.tags.length > 0 && (
                             <div className="flex flex-wrap gap-1">
-                              {pet.tags.map((tag) => (
-                                <Badge
-                                  key={tag}
-                                  variant="secondary"
-                                  className="text-xs px-2 py-1 bg-blue-50 text-blue-700 border-blue-200 border hover:bg-blue-100 transition-colors"
-                                >
-                                  {tag}
-                                </Badge>
-                              ))}
+                              {pet.tags.map((tag) => {
+                                const colors = getTagColor(tag);
+                                return (
+                                  <Badge
+                                    key={tag}
+                                    variant="secondary"
+                                    className={`text-xs px-2 py-1 ${colors.bg} ${colors.text} ${colors.border} border ${colors.hover} transition-colors`}
+                                  >
+                                    {tag}
+                                  </Badge>
+                                );
+                              })}
                             </div>
                           )}
                         </div>

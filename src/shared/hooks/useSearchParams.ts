@@ -2,6 +2,7 @@
 
 import { useSearchParams, useRouter, usePathname } from "next/navigation";
 import { useCallback, useMemo } from "react";
+import { TagName, Species } from "@/shared/utils/species";
 
 export const useUrlSearchParams = () => {
   const searchParams = useSearchParams();
@@ -13,15 +14,15 @@ export const useUrlSearchParams = () => {
   }, [searchParams]);
 
   const selectedSpecies = useMemo(() => {
-    return searchParams.getAll("species");
+    return searchParams.getAll("species") as Species[];
   }, [searchParams]);
 
   const selectedTags = useMemo(() => {
-    return searchParams.getAll("tags");
+    return searchParams.getAll("tags") as TagName[];
   }, [searchParams]);
 
   const updateSearchParams = useCallback(
-    (newParams: { search?: string; species?: string[]; tags?: string[] }) => {
+    (newParams: { search?: string; species?: Species[]; tags?: TagName[] }) => {
       const params = new URLSearchParams();
 
       const currentSearch = searchParams.get("search");
@@ -33,12 +34,12 @@ export const useUrlSearchParams = () => {
         params.set("search", searchToUse);
       }
 
-      const speciesToUse = newParams.species !== undefined ? newParams.species : currentSpecies;
+      const speciesToUse = newParams.species !== undefined ? newParams.species : (currentSpecies as Species[]);
       speciesToUse.forEach(species => {
         params.append("species", species);
       });
 
-      const tagsToUse = newParams.tags !== undefined ? newParams.tags : currentTags;
+      const tagsToUse = newParams.tags !== undefined ? newParams.tags : (currentTags as TagName[]);
       tagsToUse.forEach(tag => {
         params.append("tags", tag);
       });
@@ -50,9 +51,9 @@ export const useUrlSearchParams = () => {
   );
 
   const setSearchText = (search: string) => updateSearchParams({ search });
-  const setSelectedSpecies = (species: string[]) => updateSearchParams({ species });
-  const setSelectedTags = (tags: string[]) => updateSearchParams({ tags });
-  const setFilters = (species: string[], tags: string[]) => updateSearchParams({ species, tags });
+  const setSelectedSpecies = (species: Species[]) => updateSearchParams({ species });
+  const setSelectedTags = (tags: TagName[]) => updateSearchParams({ tags });
+  const setFilters = (species: Species[], tags: TagName[]) => updateSearchParams({ species, tags });
 
   const clearAll = () => router.replace(pathname);
 

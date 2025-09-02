@@ -1,8 +1,10 @@
+import { TagName, Species } from "@/shared/utils/species";
+
 export interface Pet {
   id: string;
   name: string;
-  species: string;
-  tags?: string[];
+  species: Species;
+  tags?: TagName[];
 }
 
 export interface Customer {
@@ -19,6 +21,6 @@ export interface CustomersResponse {
 
 export interface SearchParams {
   searchText?: string;
-  species?: string[];
-  tags?: string[];
+  species?: Species[];
+  tags?: TagName[];
 }
