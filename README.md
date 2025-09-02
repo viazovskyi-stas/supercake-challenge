@@ -1,15 +1,29 @@
 # Supercake Coding Challenge - Veterinary Customer Search
 
+**Developed by Viazovskyi Stanislav**  
+*Full-stack Developer*
+
 A modern, responsive customer search interface for veterinary clinics built with Next.js, TypeScript, and Tailwind CSS.
+
+*This project was created as part of the SoftGroup coding challenge.*
+
+## 🎬 Demo
+
+<video width="100%" controls>
+  <source src="./showcase.mp4" type="video/mp4">
+  Your browser does not support the video tag.
+</video>
 
 ## ✨ Features
 
 - **Real-time Search**: Search customers by name, email, phone, or pet names with debounced API calls
 - **Species Filtering**: Filter customers by their pets' species with intuitive toggle buttons
+- **Tag Filtering**: Advanced filtering by pet tags with search and selection capabilities
 - **Responsive Design**: Optimized for both mobile and desktop devices
 - **Clean Architecture**: Built using Feature-Sliced Design (FSD) principles
 - **TypeScript**: Full type safety throughout the application
 - **Modern UI**: Clean, accessible interface built with Tailwind CSS
+- **URL State Management**: All filters and search terms are preserved in URL parameters
 
 ## 🏗️ Architecture
 
@@ -74,13 +88,21 @@ src/
 - Clear all filters functionality
 - Real-time filtering combined with text search
 
+### Tag Filtering
+
+- Search and filter pets by their tags
+- Dropdown selection of available tags
+- Multiple tag selection with visual indicators
+- Tag-based filtering combined with species and text search
+
 ### Customer Display
 
-- Card-based layout with customer information
-- Pet badges showing name and species
+- Modern card-based layout with customer information
+- Pet information with species icons and tag badges
 - Responsive grid layout (1/2/3 columns based on screen size)
 - Loading states and error handling
 - Empty state when no results found
+- Hover effects and smooth transitions
 
 ## 🔧 Code Quality
 
@@ -106,8 +128,10 @@ npm run checks     # Run all quality checks
 The application integrates with the existing `/api/customers` endpoint:
 
 - Supports `searchText` parameter for text-based search
-- Supports `species` parameter for filtering by pet species (comma-separated)
-- Returns filtered customer data with their pets
+- Supports `species` parameter for filtering by pet species (repeat format: `?species=dog&species=cat`)
+- Supports `tags` parameter for filtering by pet tags (repeat format: `?tags=Friendly&tags=Playful`)
+- Returns filtered customer data with their pets and tags
+- Uses modern URL parameter format for better readability and standards compliance
 
 ## 📱 Responsive Design
 

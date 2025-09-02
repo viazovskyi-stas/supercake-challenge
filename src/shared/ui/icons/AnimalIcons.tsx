@@ -4,7 +4,7 @@ import { BirdIcon } from "./BirdIcon";
 import { HamsterIcon } from "./HamsterIcon";
 import { RatIcon } from "./RatIcon";
 
-// Mapping видов к иконкам
+
 export const animalIcons = {
   dog: DogIcon,
   cat: CatIcon,

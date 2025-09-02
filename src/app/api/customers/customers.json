@@ -9,12 +9,14 @@
         {
           "id": "p1",
           "name": "Fluffy",
-          "species": "cat"
+          "species": "cat",
+          "tags": ["Friendly", "Indoor"]
         },
         {
           "id": "p2",
           "name": "Fido",
-          "species": "dog"
+          "species": "dog",
+          "tags": ["Good Boy", "Playful"]
         }
       ]
     },
@@ -27,7 +29,8 @@
         {
           "id": "p3",
           "name": "Whiskers",
-          "species": "cat"
+          "species": "cat",
+          "tags": ["Quiet", "Lazy"]
         }
       ]
     },
@@ -40,7 +43,8 @@
         {
           "id": "p4",
           "name": "Tweety",
-          "species": "bird"
+          "species": "bird",
+          "tags": ["Talkative", "Colorful"]
         }
       ]
     },
@@ -60,12 +64,14 @@
         {
           "id": "p5",
           "name": "Bella",
-          "species": "dog"
+          "species": "dog",
+          "tags": ["Energetic", "Loyal"]
         },
         {
           "id": "p6",
           "name": "Coco",
-          "species": "bird"
+          "species": "bird",
+          "tags": ["Smart", "Musical"]
         }
       ]
     },
@@ -85,7 +91,8 @@
         {
           "id": "p7",
           "name": "Snowball",
-          "species": "hamster"
+          "species": "hamster",
+          "tags": ["Small", "Active"]
         }
       ]
     },
@@ -98,7 +105,8 @@
         {
           "id": "p8",
           "name": "Max",
-          "species": "dog"
+          "species": "dog",
+          "tags": ["Big", "Guard"]
         }
       ]
     },
@@ -111,7 +119,8 @@
         {
           "id": "p9",
           "name": "Cheddar",
-          "species": "rat"
+          "species": "rat",
+          "tags": ["Bites", "Clever"]
         }
       ]
     },
@@ -124,12 +133,14 @@
         {
           "id": "p10",
           "name": "Lucky",
-          "species": "cat"
+          "species": "cat",
+          "tags": ["Lucky", "Outdoor"]
         },
         {
           "id": "p11",
           "name": "Buddy",
-          "species": "dog"
+          "species": "dog",
+          "tags": ["Good Boy", "Friendly"]
         }
       ]
     },
@@ -149,7 +160,8 @@
         {
           "id": "p12",
           "name": "Chirpy",
-          "species": "bird"
+          "species": "bird",
+          "tags": ["Morning Singer", "Small"]
         }
       ]
     },
@@ -162,7 +174,8 @@
         {
           "id": "p13",
           "name": "Squeaky",
-          "species": "hamster"
+          "species": "hamster",
+          "tags": ["Noisy", "Playful"]
         }
       ]
     },
@@ -175,12 +188,14 @@
         {
           "id": "p14",
           "name": "Shadow",
-          "species": "cat"
+          "species": "cat",
+          "tags": ["Stealthy", "Independent"]
         },
         {
           "id": "p15",
           "name": "Rusty",
-          "species": "dog"
+          "species": "dog",
+          "tags": ["Old", "Wise"]
         }
       ]
     }

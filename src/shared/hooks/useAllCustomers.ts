@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { Customer } from "@/shared/types";
 import { CustomersApi } from "@/shared/api/customers";
 
-// Hook for getting all customers without any filters (for species list)
+
 export const useAllCustomers = () => {
   const [allCustomers, setAllCustomers] = useState<Customer[]>([]);
   const [loading, setLoading] = useState(true);

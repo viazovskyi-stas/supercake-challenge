@@ -2,7 +2,7 @@
 
 import { useMemo } from "react";
 import { PetsPopover } from "@/features/pet-filter";
-import { getAllSpecies } from "@/shared/utils/species";
+import { getAllSpecies, getAllTags } from "@/shared/utils/species";
 import { SearchInput } from "@/shared/ui";
 import { useAllCustomers } from "@/shared/hooks/useAllCustomers";
 import { useUrlSearchParams } from "@/shared/hooks/useSearchParams";
@@ -15,7 +15,7 @@ interface SearchControlsProps {
 export const SearchControls: React.FC<SearchControlsProps> = ({
   initialCustomers,
 }) => {
-  const { searchText, selectedSpecies, setSearchText, setSelectedSpecies } =
+  const { searchText, selectedSpecies, selectedTags, setSearchText, setFilters } =
     useUrlSearchParams();
 
   const { allCustomers } = useAllCustomers();
@@ -24,15 +24,19 @@ export const SearchControls: React.FC<SearchControlsProps> = ({
     setSearchText(text);
   };
 
-  const handleApplySpeciesFilter = (species: string[]) => {
-    setSelectedSpecies(species);
+  const handleApplyFilter = (species: string[], tags: string[]) => {
+    setFilters(species, tags);
   };
 
+  const currentCustomers = allCustomers.length > 0 ? allCustomers : initialCustomers;
+
   const availableSpecies = useMemo(() => {
-    return getAllSpecies(
-      allCustomers.length > 0 ? allCustomers : initialCustomers,
-    );
-  }, [allCustomers, initialCustomers]);
+    return getAllSpecies(currentCustomers);
+  }, [currentCustomers]);
+
+  const availableTags = useMemo(() => {
+    return getAllTags(currentCustomers);
+  }, [currentCustomers]);
 
   return (
     <div className="flex gap-3 items-center">
@@ -48,7 +52,9 @@ export const SearchControls: React.FC<SearchControlsProps> = ({
       <PetsPopover
         availableSpecies={availableSpecies}
         selectedSpecies={selectedSpecies}
-        onApplyFilter={handleApplySpeciesFilter}
+        availableTags={availableTags}
+        selectedTags={selectedTags}
+        onApplyFilter={handleApplyFilter}
       />
     </div>
   );

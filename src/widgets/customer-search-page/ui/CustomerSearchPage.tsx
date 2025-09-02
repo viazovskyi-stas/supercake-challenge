@@ -6,12 +6,14 @@ interface CustomerSearchPageProps {
   initialCustomers: Customer[];
   searchText: string;
   selectedSpecies: string[];
+  selectedTags: string[];
 }
 
 export const CustomerSearchPage: React.FC<CustomerSearchPageProps> = ({
   initialCustomers,
   searchText,
   selectedSpecies,
+  selectedTags,
 }) => {
   return (
     <div className="min-h-screen bg-gray-50">
@@ -29,6 +31,7 @@ export const CustomerSearchPage: React.FC<CustomerSearchPageProps> = ({
         <CustomerList
           searchText={searchText}
           selectedSpecies={selectedSpecies}
+          selectedTags={selectedTags}
         />
       </div>
     </div>

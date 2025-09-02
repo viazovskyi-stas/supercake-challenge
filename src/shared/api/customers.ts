@@ -12,8 +12,12 @@ export class CustomersApi {
       searchParams.append("searchText", params.searchText);
     }
 
-    if (params.species && params.species.length > 0) {
-      searchParams.append("species", params.species.join(","));
+    if (params.species?.length) {
+      params.species.forEach(s => searchParams.append("species", s));
+    }
+
+    if (params.tags?.length) {
+      params.tags.forEach(t => searchParams.append("tags", t));
     }
 
     const url = `${this.baseUrl}${searchParams.toString() ? `?${searchParams.toString()}` : ""}`;

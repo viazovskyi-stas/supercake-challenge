@@ -2,6 +2,7 @@ export interface Pet {
   id: string;
   name: string;
   species: string;
+  tags?: string[];
 }
 
 export interface Customer {
@@ -19,4 +20,5 @@ export interface CustomersResponse {
 export interface SearchParams {
   searchText?: string;
   species?: string[];
+  tags?: string[];
 }

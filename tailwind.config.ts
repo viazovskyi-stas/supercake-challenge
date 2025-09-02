@@ -13,7 +13,7 @@ export default {
   theme: {
     extend: {
       colors: {
-        // Figma Design System Colors
+
         white: "#FFFFFF",
         black: "#000000",
 
@@ -39,7 +39,7 @@ export default {
           900: "#000000",
         },
 
-        // Legacy support - mapping to new colors
+
         neutral: {
           50: "#F5F7FA",
           100: "#E8EBF0",

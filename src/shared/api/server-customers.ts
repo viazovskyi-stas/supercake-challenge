@@ -1,6 +1,6 @@
 import { SearchParams, CustomersResponse } from "@/shared/types";
 
-// Серверный API клиент для использования в Server Components
+
 export class ServerCustomersApi {
   private static baseUrl =
     process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
@@ -14,15 +14,18 @@ export class ServerCustomersApi {
       searchParams.append("searchText", params.searchText);
     }
 
-    if (params.species && params.species.length > 0) {
-      searchParams.append("species", params.species.join(","));
+    if (params.species?.length) {
+      params.species.forEach(s => searchParams.append("species", s));
+    }
+
+    if (params.tags?.length) {
+      params.tags.forEach(t => searchParams.append("tags", t));
     }
 
     const url = `${this.baseUrl}/api/customers${searchParams.toString() ? `?${searchParams.toString()}` : ""}`;
 
     try {
       const response = await fetch(url, {
-        // Отключаем кэш для получения актуальных данных
         cache: "no-store",
       });
 
@@ -33,12 +36,9 @@ export class ServerCustomersApi {
       return response.json();
     } catch (error) {
       console.error("Server API Error:", error);
-      // Возвращаем пустой результат в случае ошибки
       return { customers: [] };
     }
   }
-
-  // Метод для получения всех клиентов без фильтров (для списка видов)
   static async getAllCustomers(): Promise<CustomersResponse> {
     return this.getCustomers({});
   }

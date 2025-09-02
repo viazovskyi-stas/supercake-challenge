@@ -1,4 +1,4 @@
-import { Suspense } from "react";
+import { Suspense, memo } from "react";
 import { ServerCustomersApi } from "@/shared/api/server-customers";
 import { Customer } from "@/shared/types";
 import { Badge } from "@/shared/ui";
@@ -8,21 +8,23 @@ import {
   type AnimalSpecies,
 } from "@/shared/ui/icons/AnimalIcons";
 import { getSpeciesDisplayName } from "@/shared/utils/species";
-import { cn } from "@/shared/utils/cn";
 
 interface CustomerListProps {
   searchText?: string;
   selectedSpecies?: string[];
+  selectedTags?: string[];
   className?: string;
 }
 
 async function CustomerListData({
   searchText,
   selectedSpecies,
+  selectedTags,
 }: CustomerListProps) {
   const customersData = await ServerCustomersApi.getCustomers({
     searchText: searchText || undefined,
     species: selectedSpecies?.length ? selectedSpecies : undefined,
+    tags: selectedTags?.length ? selectedTags : undefined,
   });
 
   const customers = customersData.customers;
@@ -48,63 +50,105 @@ async function CustomerListData({
         </div>
       </div>
 
-      <div className="space-y-4">
+      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
         {customers.map((customer) => (
           <div
             key={customer.id}
-            className="bg-white border border-gray-200 rounded-lg p-4 hover:shadow-sm transition-shadow"
+            className="bg-white border border-gray-200 rounded-xl p-5 hover:shadow-lg hover:border-gray-300 transition-all duration-200 group"
           >
-            <div className="flex items-start justify-between mb-3">
-              <div>
-                <h3 className="font-medium text-gray-900 mb-1">
+            {/* Customer Header */}
+            <div className="flex items-start justify-between mb-4">
+              <div className="flex-1 min-w-0">
+                <h3 className="font-semibold text-gray-900 text-lg mb-1 truncate">
                   {customer.name}
                 </h3>
-                <div className="text-sm text-gray-600 space-y-0.5">
-                  <div>📧 {customer.email}</div>
-                  {customer.phone && <div>📞 {customer.phone}</div>}
+                <div className="space-y-1">
+                  <div className="flex items-center gap-2 text-sm text-gray-600">
+                    <svg className="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                    </svg>
+                    <span className="truncate">{customer.email}</span>
+                  </div>
+                  {customer.phone && (
+                    <div className="flex items-center gap-2 text-sm text-gray-600">
+                      <svg className="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                      </svg>
+                      <span>{customer.phone}</span>
+                    </div>
+                  )}
                 </div>
               </div>
-              <span className="text-xs text-gray-500 bg-gray-100 px-2 py-1 rounded">
-                ID: {customer.id}
-              </span>
+              <div className="ml-3 flex-shrink-0">
+                <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-gray-100 text-gray-600">
+                  #{customer.id}
+                </span>
+              </div>
             </div>
 
-            <div>
+            {/* Pets Section */}
+            <div className="border-t border-gray-100 pt-4">
               {customer.pets?.length > 0 ? (
                 <>
-                  <div className="text-xs text-gray-600 mb-2 font-medium">
-                    Pets ({customer.pets.length})
+                  <div className="flex items-center gap-2 mb-3">
+                    <svg className="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                    </svg>
+                    <span className="text-sm font-medium text-gray-700">
+                      Pets ({customer.pets.length})
+                    </span>
                   </div>
-                  <div className="flex flex-wrap gap-2">
+                  
+                  <div className="space-y-3">
                     {customer.pets.map((pet) => {
-                      const IconComponent =
-                        animalIcons[pet.species as AnimalSpecies];
+                      const IconComponent = animalIcons[pet.species as AnimalSpecies];
                       return (
-                        <div
-                          key={pet.id}
-                          className="inline-flex items-center gap-1.5 px-2.5 py-1 bg-gray-100 rounded-md text-xs"
-                        >
-                          {IconComponent && (
-                            <IconComponent
-                              size={14}
-                              className="text-gray-600"
-                            />
+                        <div key={pet.id} className="bg-gray-50 rounded-lg p-3">
+                          {/* Pet Header */}
+                          <div className="flex items-center gap-2 mb-2">
+                            {IconComponent && (
+                              <div className="flex-shrink-0 w-6 h-6 flex items-center justify-center bg-white rounded-full border border-gray-200">
+                                <IconComponent
+                                  size={14}
+                                  className="text-gray-600"
+                                />
+                              </div>
+                            )}
+                            <div className="flex-1 min-w-0">
+                              <h4 className="font-medium text-gray-900 text-sm truncate">
+                                {pet.name}
+                              </h4>
+                              <p className="text-xs text-gray-500">
+                                {getSpeciesDisplayName(pet.species)}
+                              </p>
+                            </div>
+                          </div>
+                          
+                          {/* Pet Tags */}
+                          {pet.tags && pet.tags.length > 0 && (
+                            <div className="flex flex-wrap gap-1">
+                              {pet.tags.map((tag) => (
+                                <Badge
+                                  key={tag}
+                                  variant="secondary"
+                                  className="text-xs px-2 py-1 bg-blue-50 text-blue-700 border-blue-200 border hover:bg-blue-100 transition-colors"
+                                >
+                                  {tag}
+                                </Badge>
+                              ))}
+                            </div>
                           )}
-                          <span className="font-medium text-gray-800">
-                            {pet.name}
-                          </span>
-                          <span className="text-gray-600">•</span>
-                          <span className="text-gray-600">
-                            {getSpeciesDisplayName(pet.species)}
-                          </span>
                         </div>
                       );
                     })}
                   </div>
                 </>
               ) : (
-                <div className="text-xs text-gray-400 italic">
-                  No pets registered
+                <div className="text-center py-6">
+                  <svg className="w-8 h-8 text-gray-300 mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                  </svg>
+                  <p className="text-sm text-gray-400">No pets registered</p>
                 </div>
               )}
             </div>
@@ -115,9 +159,10 @@ async function CustomerListData({
   );
 }
 
-export const CustomerList: React.FC<CustomerListProps> = ({
+export const CustomerList = memo<CustomerListProps>(({
   searchText,
   selectedSpecies,
+  selectedTags,
   className,
 }) => {
   return (
@@ -126,8 +171,9 @@ export const CustomerList: React.FC<CustomerListProps> = ({
         <CustomerListData
           searchText={searchText}
           selectedSpecies={selectedSpecies}
+          selectedTags={selectedTags}
         />
       </Suspense>
     </div>
   );
-};
+});

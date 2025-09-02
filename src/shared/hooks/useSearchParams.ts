@@ -8,69 +8,62 @@ export const useUrlSearchParams = () => {
   const router = useRouter();
   const pathname = usePathname();
 
-  // Получение текущих значений из URL
   const searchText = useMemo(() => {
     return searchParams.get("search") || "";
   }, [searchParams]);
 
   const selectedSpecies = useMemo(() => {
-    const species = searchParams.get("species");
-    return species ? species.split(",").filter(Boolean) : [];
+    return searchParams.getAll("species");
   }, [searchParams]);
 
-  // Обновление URL параметров
+  const selectedTags = useMemo(() => {
+    return searchParams.getAll("tags");
+  }, [searchParams]);
+
   const updateSearchParams = useCallback(
-    (newParams: { search?: string; species?: string[] }) => {
-      const params = new URLSearchParams(searchParams.toString());
+    (newParams: { search?: string; species?: string[]; tags?: string[] }) => {
+      const params = new URLSearchParams();
 
-      // Обновляем search параметр
-      if (newParams.search !== undefined) {
-        if (newParams.search) {
-          params.set("search", newParams.search);
-        } else {
-          params.delete("search");
-        }
+      const currentSearch = searchParams.get("search");
+      const currentSpecies = searchParams.getAll("species");
+      const currentTags = searchParams.getAll("tags");
+
+      const searchToUse = newParams.search !== undefined ? newParams.search : currentSearch;
+      if (searchToUse) {
+        params.set("search", searchToUse);
       }
 
-      // Обновляем species параметр
-      if (newParams.species !== undefined) {
-        if (newParams.species.length > 0) {
-          params.set("species", newParams.species.join(","));
-        } else {
-          params.delete("species");
-        }
-      }
+      const speciesToUse = newParams.species !== undefined ? newParams.species : currentSpecies;
+      speciesToUse.forEach(species => {
+        params.append("species", species);
+      });
 
-      // Обновляем URL
+      const tagsToUse = newParams.tags !== undefined ? newParams.tags : currentTags;
+      tagsToUse.forEach(tag => {
+        params.append("tags", tag);
+      });
+
       const newUrl = `${pathname}${params.toString() ? `?${params.toString()}` : ""}`;
       router.replace(newUrl);
     },
     [searchParams, router, pathname],
   );
 
-  const setSearchText = useCallback(
-    (search: string) => {
-      updateSearchParams({ search });
-    },
-    [updateSearchParams],
-  );
+  const setSearchText = (search: string) => updateSearchParams({ search });
+  const setSelectedSpecies = (species: string[]) => updateSearchParams({ species });
+  const setSelectedTags = (tags: string[]) => updateSearchParams({ tags });
+  const setFilters = (species: string[], tags: string[]) => updateSearchParams({ species, tags });
 
-  const setSelectedSpecies = useCallback(
-    (species: string[]) => {
-      updateSearchParams({ species });
-    },
-    [updateSearchParams],
-  );
-
-  const clearAll = useCallback(() => {
-    updateSearchParams({ search: "", species: [] });
-  }, [updateSearchParams]);
+  const clearAll = () => router.replace(pathname);
 
   return {
     searchText,
     selectedSpecies,
+    selectedTags,
     setSearchText,
     setSelectedSpecies,
+    setSelectedTags,
+    setFilters,
     updateSearchParams,
     clearAll,
   };
